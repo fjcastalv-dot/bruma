@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>bruma · Respira. Relaja. Crece.</title>
+<meta name="description" content="bruma, el shampoo aromaterapéutico que convierte tu ducha en un ritual de calma.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 160'%3E%3Ccircle cx='80' cy='96' r='56' fill='%23CDE0D6'/%3E%3Cg stroke='%231C2824' stroke-width='8' stroke-linecap='round' fill='none'%3E%3Cpath d='M58 122 C46 102 70 88 58 66 C50 52 62 42 58 30'/%3E%3Cpath d='M80 122 C68 102 92 88 80 66 C72 52 84 42 80 20'/%3E%3Cpath d='M102 122 C90 102 114 88 102 66 C94 52 106 42 102 30'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300..600;1,300..600&family=DM+Sans:opsz,wght@9..40,300..600&display=swap">
+<style>
+:root{
+  --bg:#EDF1EE; --surface:#F8FAF8; --ink:#1C2824; --muted:#55635D; --line:#D2DCD7;
+  --sage:#3F6A57; --sage-soft:#CDE0D6; --lav-soft:#DFD9F2; --wood-soft:#E6DCC7;
+  --deep:#1C2824; --on-deep:#EEF3F0; --on-deep-muted:#B7C8C0;
+  --blob:var(--sage-soft);
+  --display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --body:'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r:28px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#111816; --surface:#18221F; --ink:#E6EDE9; --muted:#A3B3AC; --line:#2A3632;
+  --sage:#9CC7B2; --sage-soft:#2D463C; --lav-soft:#3A3554; --wood-soft:#4A4130;
+  --deep:#0B110F; --on-deep:#EEF3F0; --on-deep-muted:#A3B3AC; color-scheme:dark}}
+body[data-aroma="lavanda"]{--blob:var(--lav-soft)}
+body[data-aroma="vetiver"]{--blob:var(--wood-soft)}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));overflow-x:hidden}
+.wrap{max-width:1120px;margin-inline:auto}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.05;text-wrap:balance;margin:0}
+p{margin:0}
+.eyebrow{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--sage);font-weight:500}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--sage);outline-offset:3px;border-radius:8px}
+
+/* Menú */
+nav{position:sticky;top:0;z-index:5;padding-top:env(safe-area-inset-top, 0px);background:color-mix(in srgb, var(--bg) 82%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;padding-block:14px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-style:italic;font-weight:300;font-size:34px;text-decoration:none;line-height:1}
+.logo svg{width:30px;height:30px}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;border-radius:999px;padding:13px 24px;background:var(--ink);color:var(--bg);font-weight:500;text-decoration:none;transition:transform .25s ease, background .25s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+/* Portada */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:32px;align-items:center;padding-block:48px 72px}
+.hero-copy{display:flex;flex-direction:column;gap:24px;min-width:0}
+.hero h1{font-size:clamp(56px, 9vw, 116px);font-weight:300}
+.hero h1 em{font-style:italic;color:var(--sage)}
+.hero .lede{font-size:20px;color:var(--muted);max-width:30ch}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.stage{position:relative;aspect-ratio:1/1;max-width:100%;display:grid;place-items:center}
+.blob{position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle at 50% 55%, var(--blob) 0%, transparent 68%);transition:background .8s ease;animation:breathe 8s ease-in-out infinite}
+.bottle{position:relative;width:min(58%, 300px);animation:float 6s ease-in-out infinite}
+.bottle .cap{fill:var(--ink)}
+.bottle .neck{fill:var(--sage)}
+.bottle .body{fill:var(--sage-soft)}
+.bottle .label{fill:var(--surface)}
+.bottle .ink{stroke:var(--ink)}
+.bottle .word{fill:var(--ink);font-family:var(--display);font-style:italic;font-weight:300}
+.bottle .sub{fill:var(--sage);font-family:var(--body);letter-spacing:3px}
+.vapor path{fill:none;stroke:var(--muted);stroke-width:3;stroke-linecap:round;stroke-dasharray:140;animation:rise 4.5s ease-in-out infinite;opacity:.55}
+.vapor path:nth-child(2){animation-delay:1.2s}
+.vapor path:nth-child(3){animation-delay:2.4s}
+@keyframes breathe{0%,100%{transform:scale(.92)}50%{transform:scale(1.04)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-14px) rotate(1deg)}}
+@keyframes rise{0%{stroke-dashoffset:140;transform:translateY(10px);opacity:0}40%{opacity:.6}100%{stroke-dashoffset:-140;transform:translateY(-24px);opacity:0}}
+.hero-copy > *{animation:enter .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-copy > *:nth-child(2){animation-delay:.08s}.hero-copy > *:nth-child(3){animation-delay:.16s}.hero-copy > *:nth-child(4){animation-delay:.24s}
+@keyframes enter{from{opacity:.25;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+section.block{padding-block:96px;display:flex;flex-direction:column;gap:40px}
+.head{display:flex;flex-direction:column;gap:14px;max-width:640px}
+.head h2{font-size:clamp(40px, 6vw, 68px)}
+
+/* Cómo funciona */
+.steps{display:grid;grid-template-columns:repeat(3, 1fr);gap:20px}
+.step{display:flex;flex-direction:column;gap:12px;padding:32px;border-top:1px solid var(--line);min-width:0}
+.step .n{font-family:var(--display);font-style:italic;font-size:64px;line-height:1;color:var(--sage)}
+.step h3{font-size:36px}
+.step p{color:var(--muted)}
+.step.last{background:var(--deep);color:var(--on-deep);border-radius:var(--r);border-top:0}
+.step.last .n{color:var(--on-deep-muted)}
+.step.last p{color:var(--on-deep-muted)}
+
+/* Respiración guiada */
+.breathe{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;background:var(--surface);border-radius:40px;padding:56px;border:1px solid var(--line)}
+.breathe-copy{display:flex;flex-direction:column;gap:20px;min-width:0}
+.breathe-copy h2{font-size:clamp(40px, 5.4vw, 64px)}
+.breathe-copy p{color:var(--muted)}
+.dots{display:flex;gap:10px}
+.dots i{width:14px;height:14px;border-radius:50%;border:1px solid var(--sage);transition:background .4s}
+.dots i.on{background:var(--sage)}
+.orb-wrap{position:relative;aspect-ratio:1/1;max-width:100%;display:grid;place-items:center}
+.ring{position:absolute;inset:4%;border-radius:50%;border:1px dashed var(--line)}
+.orb{width:78%;aspect-ratio:1/1;border-radius:50%;background:radial-gradient(circle at 40% 35%, var(--surface), var(--blob) 70%);box-shadow:0 30px 80px -30px color-mix(in srgb, var(--sage) 45%, transparent);transform:scale(.62);transition:transform 4s cubic-bezier(.45,0,.55,1), background .8s;display:grid;place-items:center}
+.orb span{font-family:var(--display);font-style:italic;font-size:clamp(30px, 4vw, 44px);transform:scale(1.4);transition:transform 4s cubic-bezier(.45,0,.55,1)}
+.orb.big{transform:scale(1)}
+.orb.big span{transform:scale(1)}
+.done{color:var(--sage);font-weight:500;min-height:1.6em}
+
+/* Aroma */
+.aromas{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center}
+.tabs{display:flex;flex-direction:column;gap:10px}
+.tab{display:flex;justify-content:space-between;align-items:baseline;gap:16px;text-align:left;background:transparent;border:1px solid var(--line);color:var(--ink);border-radius:20px;padding:20px 24px;transition:background .3s,border-color .3s}
+.tab b{font-family:var(--display);font-weight:400;font-size:32px}
+.tab small{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--blob);border-color:transparent}
+.note{display:flex;flex-direction:column;gap:16px;padding:40px;border-radius:var(--r);background:radial-gradient(circle at 80% 20%, var(--blob), var(--surface) 70%);min-height:280px;transition:background .8s;min-width:0}
+.note h3{font-size:clamp(44px, 6vw, 72px);font-style:italic;font-weight:300}
+.note p{font-size:19px;color:var(--muted);max-width:36ch}
+
+/* Promesa */
+.promise{background:var(--deep);color:var(--on-deep);border-radius:40px;padding:96px 40px;text-align:center;display:flex;flex-direction:column;gap:20px;align-items:center;margin-block:24px;position:relative;overflow:hidden}
+.promise::before{content:"";position:absolute;width:520px;height:520px;max-width:120%;border-radius:50%;background:radial-gradient(circle, color-mix(in srgb, var(--sage) 35%, transparent), transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:breathe 8s ease-in-out infinite}
+.promise > *{position:relative}
+.promise .eyebrow{color:var(--on-deep-muted)}
+.promise h2{font-size:clamp(44px, 7vw, 92px);font-style:italic;font-weight:300;max-width:16ch}
+
+footer{border-top:1px solid var(--line);padding-block:40px max(56px, env(safe-area-inset-bottom, 0px));display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;color:var(--muted);font-size:14px}
+footer .fine{max-width:52ch}
+
+/* Animación al hacer scroll */
+.reveal{transition:transform .9s cubic-bezier(.2,.7,.2,1), opacity .9s}
+.reveal.pre{transform:translateY(32px);opacity:.35}
+
+@media (max-width:860px){
+  .hero,.breathe,.aromas{grid-template-columns:1fr}
+  .hero{padding-block:24px 48px}
+  .stage{max-width:420px;margin-inline:auto;width:100%}
+  .steps{grid-template-columns:1fr}
+  .breathe{padding:32px 24px}
+  .orb-wrap{max-width:340px;width:100%;margin-inline:auto}
+  section.block{padding-block:64px}
+}
+@media (max-width:440px){.promise{padding:64px 24px}}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *,*::before{animation:none !important;transition-duration:.01ms !important}
+  .reveal.pre{transform:none;opacity:1}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="bruma, inicio">
+      <svg viewBox="0 0 160 160" aria-hidden="true"><circle cx="80" cy="96" r="56" style="fill:var(--sage-soft)"/><g style="stroke:var(--ink)" stroke-width="8" stroke-linecap="round" fill="none"><path d="M58 122 C46 102 70 88 58 66 C50 52 62 42 58 30"/><path d="M80 122 C68 102 92 88 80 66 C72 52 84 42 80 20"/><path d="M102 122 C90 102 114 88 102 66 C94 52 106 42 102 30"/></g></svg>
+      bruma
+    </a>
+    <a class="btn" href="#respira">Prueba el ritual</a>
+  </div>
+</nav>
+
+<main class="wrap" id="inicio">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">Shampoo aromaterapéutico</p>
+      <h1>Respira. Relaja. <em>Crece.</em></h1>
+      <p class="lede">El shampoo que convierte tu ducha en un ritual de calma. Porque cuando la mente descansa, el cabello lo nota.</p>
+      <div class="ctas">
+        <a class="btn" href="#respira">Prueba el ritual</a>
+        <a class="btn ghost" href="#como">Cómo funciona</a>
+      </div>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <div class="blob"></div>
+      <svg class="bottle" viewBox="0 0 360 700">
+        <g class="vapor"><path d="M150 120 C134 96 166 82 150 56 C140 40 156 30 150 10"/><path d="M180 120 C164 96 196 82 180 56 C170 40 186 30 180 6"/><path d="M210 120 C194 96 226 82 210 56 C200 40 216 30 210 10"/></g>
+        <rect class="cap" x="130" y="140" width="100" height="80" rx="16"/>
+        <rect class="neck" x="150" y="210" width="60" height="44"/>
+        <rect class="body" x="50" y="246" width="260" height="440" rx="72"/>
+        <rect class="label" x="82" y="380" width="196" height="232" rx="24"/>
+        <g class="ink" stroke-width="3" stroke-linecap="round" fill="none"><path d="M162 456 C154 444 170 436 162 422 C157 414 165 410 162 404"/><path d="M180 456 C172 444 188 436 180 422 C175 414 183 410 180 398"/><path d="M198 456 C190 444 206 436 198 422 C193 414 201 410 198 404"/></g>
+        <text class="word" x="180" y="526" text-anchor="middle" font-size="58">bruma</text>
+        <text class="sub" x="180" y="566" text-anchor="middle" font-size="15">RITUAL CALMA</text>
+      </svg>
+    </div>
+  </section>
+
+  <section class="block" id="como">
+    <div class="head reveal">
+      <p class="eyebrow">Cómo funciona</p>
+      <h2>Tu mente se relaja. Tu cabello lo siente.</h2>
+    </div>
+    <div class="steps">
+      <article class="step reveal"><span class="n">1</span><h3>Huele</h3><p>Con el vapor se libera nuestro aroma firma de eucalipto, lavanda y vetiver.</p></article>
+      <article class="step reveal"><span class="n">2</span><h3>Respira</h3><p>Tres respiraciones profundas bajan el ritmo de tu día en segundos.</p></article>
+      <article class="step last reveal"><span class="n">3</span><h3>Siente</h3><p>Con la mente en calma, tu cabello se siente más fuerte, suave y cuidado.</p></article>
+    </div>
+  </section>
+
+  <section class="block" id="respira">
+    <div class="breathe reveal">
+      <div class="breathe-copy">
+        <p class="eyebrow">El ritual bruma</p>
+        <h2>Haz la prueba aquí mismo</h2>
+        <p>Tres respiraciones. Es todo lo que te pide bruma. Sigue el círculo: crece cuando inhalas, baja cuando exhalas.</p>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <div class="ctas"><button class="btn" id="startBtn" type="button">Empezar</button></div>
+        <p class="done" id="doneMsg" aria-live="polite"></p>
+      </div>
+      <div class="orb-wrap">
+        <div class="ring"></div>
+        <div class="orb" id="orb"><span id="orbText">Listo</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="aroma">
+    <div class="head reveal">
+      <p class="eyebrow">El aroma</p>
+      <h2>Tres notas, una sola sensación</h2>
+    </div>
+    <div class="aromas reveal">
+      <div class="tabs" role="tablist" aria-label="Notas del aroma">
+        <button class="tab" role="tab" id="t-eucalipto" aria-selected="true" aria-controls="notePanel" data-aroma="eucalipto"><b>Eucalipto</b><small>Salida</small></button>
+        <button class="tab" role="tab" id="t-lavanda" aria-selected="false" aria-controls="notePanel" data-aroma="lavanda" tabindex="-1"><b>Lavanda</b><small>Corazón</small></button>
+        <button class="tab" role="tab" id="t-vetiver" aria-selected="false" aria-controls="notePanel" data-aroma="vetiver" tabindex="-1"><b>Vetiver</b><small>Fondo</small></button>
+      </div>
+      <div class="note" id="notePanel" role="tabpanel" aria-live="polite">
+        <p class="eyebrow" id="noteTag">Lo primero que sientes</p>
+        <h3 id="noteTitle">Eucalipto</h3>
+        <p id="noteText">Fresco y limpio. Despeja la respiración y marca el inicio del ritual.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="promise reveal">
+    <p class="eyebrow">Nuestra promesa</p>
+    <h2>Cuando la mente descansa, el cabello lo nota.</h2>
+  </section>
+
+  <footer>
+    <a class="logo" href="#inicio" aria-label="Volver arriba">bruma</a>
+    <p class="fine">bruma es un ritual de bienestar con aromaterapia. No sustituye un tratamiento médico. · [Nombre del equipo]</p>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Animación al hacer scroll (solo para lo que está debajo de la primera pantalla)
+  if ('IntersectionObserver' in window && !reduce) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      if (el.getBoundingClientRect().top > window.innerHeight) { el.classList.add('pre'); io.observe(el); }
+    });
+  }
+
+  // Ritual de 3 respiraciones
+  var orb = document.getElementById('orb'), txt = document.getElementById('orbText'),
+      btn = document.getElementById('startBtn'), done = document.getElementById('doneMsg'),
+      dots = document.querySelectorAll('.dots i'), timers = [];
+  var phase = reduce ? 2500 : 4000; // milisegundos por inhalación o exhalación
+  function clear() { timers.forEach(clearTimeout); timers = []; }
+  function at(ms, fn) { timers.push(setTimeout(fn, ms)); }
+
+  btn.addEventListener('click', function () {
+    clear();
+    done.textContent = '';
+    btn.textContent = 'Reiniciar';
+    dots.forEach(function (d) { d.classList.remove('on'); });
+    orb.classList.remove('big');
+    txt.textContent = 'Prepárate';
+    for (var i = 0; i < 3; i++) {
+      (function (i) {
+        var t = 600 + i * phase * 2;
+        at(t, function () { orb.classList.add('big'); txt.textContent = 'Inhala'; });
+        at(t + phase, function () { orb.classList.remove('big'); txt.textContent = 'Exhala'; });
+        at(t + phase * 2, function () { dots[i].classList.add('on'); });
+      })(i);
+    }
+    at(600 + phase * 6 + 200, function () {
+      txt.textContent = 'Calma';
+      done.textContent = 'Así se siente bruma. Ahora imagínalo con agua tibia y nuestro aroma.';
+      btn.textContent = 'Repetir ritual';
+    });
+  });
+
+  // Notas del aroma
+  var notes = {
+    eucalipto: { tag: 'Lo primero que sientes', text: 'Fresco y limpio. Despeja la respiración y marca el inicio del ritual.' },
+    lavanda:   { tag: 'El corazón del ritual',  text: 'Suave y envolvente. La nota que asociamos con calma y descanso.' },
+    vetiver:   { tag: 'Lo que se queda',        text: 'Cálido y terroso. Da la sensación de raíz, de fuerza que crece desde abajo.' }
+  };
+  var tabs = document.querySelectorAll('.tab');
+  function pick(tab) {
+    var k = tab.getAttribute('data-aroma');
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+      t.tabIndex = t === tab ? 0 : -1;
+    });
+    document.body.setAttribute('data-aroma', k);
+    document.getElementById('noteTitle').textContent = tab.querySelector('b').textContent;
+    document.getElementById('noteTag').textContent = notes[k].tag;
+    document.getElementById('noteText').textContent = notes[k].text;
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { pick(t); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); var n = tabs[(i + 1) % tabs.length]; pick(n); n.focus(); }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); var p = tabs[(i + tabs.length - 1) % tabs.length]; pick(p); p.focus(); }
+    });
+  });
+})();
+</script>
+</body>
+</html>
